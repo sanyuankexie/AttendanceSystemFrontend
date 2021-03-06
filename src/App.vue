@@ -38,6 +38,13 @@
             <v-list-item-title>排名</v-list-item-title>
           </v-list-item>
 
+          <v-list-item to="/record">
+            <v-list-item-icon>
+              <v-icon>{{svgPath.mdiEqualizer}}</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>记录</v-list-item-title>
+          </v-list-item>
+
           <v-list-item to="/about">
             <v-list-item-icon>
               <v-icon>{{svgPath.mdiInformationOutline}}</v-icon>

@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <div id="inform">
-      <span id="tip">{{msg}}</span>
+      <span id="tip">{{ msg }}</span>
     </div>
     <v-row>
       <v-col cols="12" v-if="allDisabled">
@@ -12,30 +12,31 @@
       <v-col cols="12" v-if="shareState.student.isLogin">
         <v-alert type="success" dense :icon="mdiCheckCircle">
           <h3>已签到</h3>
-          <p class="mb-0">学号：{{shareState.student.id}}</p>
-          <p class="mb-0">姓名：{{shareState.student.name}}</p>
+          <p class="mb-0">学号：{{ shareState.student.id }}</p>
+          <p class="mb-0">姓名：{{ shareState.student.name }}</p>
         </v-alert>
       </v-col>
 
       <v-col cols="12">
         <v-text-field
-          :rules="idError"
-          label="输入学号"
-          ref="inputId"
-          hide-details="auto"
-          :disabled="inputIdDisabled"
-          v-model="inputId"
+            :rules="idError"
+            label="输入学号"
+            ref="inputId"
+            hide-details="auto"
+            :disabled="inputIdDisabled"
+            v-model="inputId"
         ></v-text-field>
       </v-col>
 
       <v-col cols="12">
         <v-btn
-          class="mr-3"
-          color="primary"
-          rounded
-          :disabled="signUpDisabled"
-          @click.stop="signUp"
-        >签到</v-btn>
+            class="mr-3"
+            color="primary"
+            rounded
+            :disabled="signUpDisabled"
+            @click.stop="signUp"
+        >签到
+        </v-btn>
         <v-btn rounded outlined color="gray" :disabled="signOutDisabled" @click.stop="signOut">签退</v-btn>
         <v-dialog v-model="signUpDialog.show" width="500">
           <v-card color="primary" v-if="signUpDialog.loading">
@@ -47,10 +48,10 @@
           <v-card v-else-if="signUpDialog.success">
             <v-card-title class="headline light-green">签到成功</v-card-title>
             <v-card-text>
-              <p class="mt-5 mb-0">学号：{{signUpDialog.msg.id}}</p>
-              <p class="mb-0">姓名：{{signUpDialog.msg.name}}</p>
-              <p class="mb-0">签到开始时间：{{signUpDialog.msg.currentTime}}</p>
-              <p class="mb-0">本周签到总时长：{{signUpDialog.msg.allTime}}</p>
+              <p class="mt-5 mb-0">学号：{{ signUpDialog.msg.id }}</p>
+              <p class="mb-0">姓名：{{ signUpDialog.msg.name }}</p>
+              <p class="mb-0">签到开始时间：{{ signUpDialog.msg.currentTime }}</p>
+              <p class="mb-0">本周签到总时长：{{ signUpDialog.msg.allTime }}</p>
             </v-card-text>
             <v-divider></v-divider>
             <v-card-actions>
@@ -61,7 +62,7 @@
           <v-card v-else>
             <v-card-title class="headline red">签到失败</v-card-title>
             <v-card-text>
-              <p class="mb-0 mt-5">{{signUpDialog.msg.err}}</p>
+              <p class="mb-0 mt-5">{{ signUpDialog.msg.err }}</p>
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
@@ -79,10 +80,10 @@
           <v-card v-else-if="signOutDialog.success">
             <v-card-title class="headline light-green">签退成功</v-card-title>
             <v-card-text>
-              <p class="mt-5 mb-0">学号：{{signOutDialog.msg.id}}</p>
-              <p class="mb-0">姓名：{{signOutDialog.msg.name}}</p>
-              <p class="mb-0">本次签到时长：{{signOutDialog.msg.currentTime}}h</p>
-              <p class="mb-0">签到总时长：{{signOutDialog.msg.allTime}}h</p>
+              <p class="mt-5 mb-0">学号：{{ signOutDialog.msg.id }}</p>
+              <p class="mb-0">姓名：{{ signOutDialog.msg.name }}</p>
+              <p class="mb-0">本次签到时长：{{ signOutDialog.msg.accumulatedTime }}h</p>
+              <p class="mb-0">签到总时长：{{ signOutDialog.msg.totalTime }}h</p>
             </v-card-text>
             <v-divider></v-divider>
             <v-card-actions>
@@ -93,7 +94,7 @@
           <v-card v-else>
             <v-card-title class="headline red">签退失败</v-card-title>
             <v-card-text>
-              <p class="mt-5 mb-0">{{signOutDialog.msg.err}}</p>
+              <p class="mt-5 mb-0">{{ signOutDialog.msg.err }}</p>
             </v-card-text>
             <v-divider></v-divider>
             <v-card-actions>
@@ -109,24 +110,24 @@
       <v-col cols="12">
         <v-card>
           <v-card-title>
-            当前在教室的人数：{{inRomList.items.length}}
+            当前在教室的人数：{{ inRomList.items.length }}
             <v-spacer></v-spacer>
             <v-text-field
-              v-model="inRomList.search"
-              :append-icon="mdiMagnify"
-              label="Search"
-              single-line
-              hide-details
+                v-model="inRomList.search"
+                :append-icon="mdiMagnify"
+                label="Search"
+                single-line
+                hide-details
             ></v-text-field>
           </v-card-title>
           <v-data-table
-            :headers="inRomList.headers"
-            :items="inRomList.items"
-            :search="inRomList.search"
-            mobile-breakpoint="0"
-            item-key="userid"
-            :items-per-page="5"
-            calculate-widths
+              :headers="inRomList.headers"
+              :items="inRomList.items"
+              :search="inRomList.search"
+              mobile-breakpoint="0"
+              item-key="userid"
+              :items-per-page="5"
+              calculate-widths
           >
             <template v-slot:item.username="{item}">
               <v-chip color="success">{{ item.username }}</v-chip>
@@ -141,9 +142,9 @@
             <v-card-title class="headline light-green">确认举报</v-card-title>
             <v-card-text>
               <p class="mb-0 mt-5">
-                学号：{{reportDialog.msg.id}}
-                <br />
-                姓名：{{reportDialog.msg.name}}
+                学号：{{ reportDialog.msg.id }}
+                <br/>
+                姓名：{{ reportDialog.msg.name }}
               </p>
             </v-card-text>
             <v-divider></v-divider>
@@ -160,10 +161,11 @@
 </template>
 
 <script>
-import { mdiCheckCircle, mdiMagnify } from '@mdi/js'
+import {mdiCheckCircle, mdiMagnify} from '@mdi/js'
 import store from '@/store/store.js'
+
 export default {
-  data: function() {
+  data: function () {
     return {
       msg: '  【通知】近期来，发现有人恶意刷时间，这是诚信问题，被发现必严惩。你来学习多久就签多久，如若未满18小时，请和部门负责人说明情况，下次注意即可。若是因为忘记签到，想要补时长可以向部门负责人反馈，可以帮你补上',
       mdiCheckCircle,
@@ -190,8 +192,8 @@ export default {
         msg: {
           id: '',
           name: '',
-          currentTime: 0,
-          allTime: 0,
+          accumulatedTime: 0,
+          totalTime: 0,
           err: ''
         }
       },
@@ -215,21 +217,21 @@ export default {
             text: '姓名',
             align: 'center',
             sortable: false,
-            value: 'username',
+            value: 'userName',
             class: 'data-table-td-mw100'
           },
           {
             text: '部门',
             align: 'center',
             sortable: true,
-            value: 'dept',
+            value: 'userDept',
             class: 'data-table-td-mw100'
           },
           {
             text: '地点',
             align: 'center',
             sortable: false,
-            value: 'location'
+            value: 'userLocation'
           },
           {
             text: '操作',
@@ -243,7 +245,7 @@ export default {
     }
   },
   methods: {
-    notice () {
+    notice() {
       if (this.intervalId != null) return
       this.intervalId = setInterval(() => {
         var start = this.msg.substring(0, 1)
@@ -269,26 +271,26 @@ export default {
       this.signUpDialog.show = true
       this.signUpDialog.loading = true
       //send inputid
-      this.$http.post('signIn', { userId: this.inputId }).then(res => {
-        if (res.data.code === 200) {
+      this.$http.post('/api/user/signIn', {userId: this.inputId}).then(res => {
+        if (res.data.code === 0) {
           this.signUpDialog.success = true
           this.signUpDialog.loading = false
 
           //set success msg
           this.signUpDialog.msg.id = this.inputId
-          this.signUpDialog.msg.name = res.data.data.username
+          this.signUpDialog.msg.name = res.data.data.userName
           this.signUpDialog.msg.currentTime = new Date().toString()
-          this.signUpDialog.msg.allTime = res.data.allTime
+          this.signUpDialog.msg.allTime = res.data.data.totalTime
 
           //store set login
-          store.setLogin({ id: this.inputId, name: res.data.data.username })
+          store.setLogin({id: this.inputId, name: res.data.data.userName})
 
           //refresh list
           this.getList()
         } else {
           this.signUpDialog.success = false
           this.signUpDialog.loading = false
-          this.signUpDialog.msg.err = res.data.message
+          this.signUpDialog.msg.err = res.data.msg
         }
       })
     },
@@ -297,14 +299,14 @@ export default {
       this.signOutDialog.show = true
       this.signOutDialog.loading = true
 
-      this.$http.post('/signOut', { userId: this.inputId }).then(res => {
-        if (res.data.code === 200) {
+      this.$http.post('/api/user/signOut', {userId: this.inputId}).then(res => {
+        if (res.data.code === 0) {
           this.signOutDialog.loading = false
           this.signOutDialog.success = true
           this.signOutDialog.msg.id = this.inputId
-          this.signOutDialog.msg.name = res.data.data.username
-          this.signOutDialog.msg.allTime = res.data.allTime
-          this.signOutDialog.msg.currentTime = res.data.currentTime
+          this.signOutDialog.msg.name = res.data.data.userName
+          this.signOutDialog.msg.totalTime = res.data.data.totalTime
+          this.signOutDialog.msg.accumulatedTime = res.data.data.accumulatedTime
 
           //store set logout
           store.setLogOut()
@@ -313,14 +315,14 @@ export default {
           this.getList()
         } else {
           this.signOutDialog.loading = false
-          this.signOutDialog.msg.err = res.data.message
+          this.signOutDialog.msg.err = res.data.msg
         }
       })
     },
     handleReport(item) {
       //console.log(item);
-      this.reportDialog.msg.id = item.userid
-      this.reportDialog.msg.name = item.username
+      this.reportDialog.msg.id = item.userId
+      this.reportDialog.msg.name = item.userName
       this.reportDialog.show = true
     },
     confirmReport() {
@@ -328,29 +330,31 @@ export default {
       //console.log("学号：" + this.reportDialog.msg.id);
       this.reportDialog.show = false
       this.$http
-        .post('/Complaint', { userId: this.reportDialog.msg.id })
-        .then(res => {
-          if (res.data === 200) {
-            alert('举报成功')
-          }
-          this.getList()
-          //如果自己举报自己。。。
-          if (
-            this.inRomList.items.some(item => {
-              return item.userid.toString() === localStorage.getItem('id')
-            })
-          ) {
-            store.setLogOut()
-          }
-        })
+          .post('/api/user/complaint', {
+            targetUserId: this.reportDialog.msg.id,
+            operatorUserId: localStorage.getItem('id')
+          })
+          .then(res => {
+            if (res.data === 200) {
+              alert('举报成功')
+            }
+            this.getList()
+            //如果自己举报自己。。。
+            if (
+                this.inRomList.items.some(item => {
+                  return item.userId.toString() === localStorage.getItem('id')
+                })
+            ) {
+              store.setLogOut()
+            }
+          })
     },
     cancelReport() {
       this.reportDialog.show = false
     },
     getList() {
       this.$http.get('/api/record/online').then(res => {
-        this.inRomList.items = res.data
-        console.log(res.data)
+        this.inRomList.items = res.data.data
       })
     }
   },
@@ -402,12 +406,12 @@ export default {
     'inRomList.items'() {
       //check me inRoom
       var inRoom = this.inRomList.items.some(item => {
-        return item.userid.toString() === localStorage.getItem('id')
+        return item.userId.toString() === localStorage.getItem('id')
       })
       if (inRoom) {
         var id = localStorage.getItem('id')
         var name = localStorage.getItem('name')
-        store.setLogin({ id, name })
+        store.setLogin({id, name})
       } else {
         store.setLogOut()
       }
@@ -423,7 +427,7 @@ export default {
       if (localStorage.getItem('isLogin') === 'true') {
         var id = localStorage.getItem('id')
         var name = localStorage.getItem('name')
-        store.setLogin({ id, name })
+        store.setLogin({id, name})
       }
 
       //get list
@@ -435,8 +439,8 @@ export default {
 }
 </script>
 <style>
-  #inform{
-  font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
+#inform {
+  font-family: "Arial", "Microsoft YaHei", "黑体", "宋体", sans-serif;
   color: #0788a9;
   text-align: center;
   white-space: nowrap;

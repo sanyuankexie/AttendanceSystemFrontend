@@ -18,6 +18,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "rank" */ '../views/Rank.vue'),
   },
   {
+    path: '/record',
+    name: 'Record',
+    component: () => import(/* webpackChunkName: "rank" */ '../views/Record.vue')
+  },
+  {
     path: '/about',
     name: 'About',
     // route level code-splitting
@@ -34,20 +39,21 @@ const router = new VueRouter({
 
 //Navigation Guards
 router.beforeEach((to, from, next) => {
-  if (to.matched.some((record) => record.meta.requiresAuth)) {
-    // this route requires auth, check if logged in
-    // if not, redirect to login page.
-    if (!store.state.student.isLogin) {
-      next({
-        path: '/',
-      })
-      alert('请先签到')
-    } else {
-      next()
-    }
-  } else {
-    next() // 确保一定要调用 next()
-  }
+  // if (to.matched.some((record) => record.meta.requiresAuth)) {
+  //   // this route requires auth, check if logged in
+  //   // if not, redirect to login page.
+  //   if (!store.state.student.isLogin) {
+  //     next({
+  //       path: '/',
+  //     })
+  //     alert('请先签到')
+  //   } else {
+  //     next()
+  //   }
+  // } else {
+  //   next() // 确保一定要调用 next()
+  // }
+  next()
 })
 
 export default router

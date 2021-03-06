@@ -6,7 +6,7 @@
     >
       <v-container fluid>
         <v-card-title>获取某个人所有的签到记录</v-card-title>
-        <v-card-subtitle>佛系功能，没有做分页</v-card-subtitle>
+<!--        <v-card-subtitle>佛系功能，没有做分页</v-card-subtitle>-->
         <v-simple-table
           fixed-header
         >
@@ -42,6 +42,7 @@
 </template>
 
 <script>
+import store from "@/store/store.js";
 export default {
   data() {
     return {
@@ -49,7 +50,7 @@ export default {
     };
   },
   mounted() {
-    let userId = this.$store.state.userId;
+    let userId = store.state.userId || localStorage.getItem('userId');
     if (userId === "") {
       alert("还没有签到");
       this.$router.redirect("/");
