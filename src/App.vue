@@ -40,7 +40,7 @@
 
           <v-list-item to="/record">
             <v-list-item-icon>
-              <v-icon>{{svgPath.mdiEqualizer}}</v-icon>
+              <v-icon>{{svgPath.mdiEmoticon}}</v-icon>
             </v-list-item-icon>
             <v-list-item-title>记录</v-list-item-title>
           </v-list-item>
@@ -65,14 +65,15 @@
 </template>
 
 <script>
-import { mdiApps, mdiMenu, mdiInformationOutline, mdiEqualizer } from '@mdi/js'
+import { mdiApps, mdiMenu, mdiInformationOutline, mdiEqualizer, mdiEmoticon } from '@mdi/js'
 export default {
   data: () => ({
     svgPath: {
       mdiApps,
       mdiMenu,
       mdiInformationOutline,
-      mdiEqualizer
+      mdiEqualizer,
+      mdiEmoticon
     },
     drawer: false
   }),

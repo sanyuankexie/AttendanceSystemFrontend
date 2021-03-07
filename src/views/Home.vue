@@ -14,6 +14,7 @@
           <h3>已签到</h3>
           <p class="mb-0">学号：{{ shareState.student.id }}</p>
           <p class="mb-0">姓名：{{ shareState.student.name }}</p>
+          <p class="mb-0">周序：{{ week }}</p>
         </v-alert>
       </v-col>
 
@@ -126,7 +127,7 @@
               :search="inRomList.search"
               mobile-breakpoint="0"
               item-key="userid"
-              :items-per-page="5"
+              :items-per-page="10"
               calculate-widths
           >
             <template v-slot:item.username="{item}">
@@ -167,7 +168,8 @@ import store from '@/store/store.js'
 export default {
   data: function () {
     return {
-      msg: '  【通知】近期来，发现有人恶意刷时间，这是诚信问题，被发现必严惩。你来学习多久就签多久，如若未满18小时，请和部门负责人说明情况，下次注意即可。若是因为忘记签到，想要补时长可以向部门负责人反馈，可以帮你补上',
+      week: '',
+      msg: '',
       mdiCheckCircle,
       mdiMagnify,
       inputId: '',
@@ -246,12 +248,12 @@ export default {
   },
   methods: {
     notice() {
-      if (this.intervalId != null) return
-      this.intervalId = setInterval(() => {
-        var start = this.msg.substring(0, 1)
-        var end = this.msg.substring(1)
-        this.msg = end + start
-      }, 100)
+      // if (this.intervalId != null) return
+      // this.intervalId = setInterval(() => {
+      //   var start = this.msg.substring(0, 1)
+      //   var end = this.msg.substring(1)
+      //   this.msg = end + start
+      // }, 100)
     }
     ,
     checkTimeVaild() {
@@ -287,6 +289,8 @@ export default {
 
           //refresh list
           this.getList()
+          // set week
+          localStorage.setItem('week', res.data.data.week)
         } else {
           this.signUpDialog.success = false
           this.signUpDialog.loading = false
@@ -335,7 +339,7 @@ export default {
             operatorUserId: localStorage.getItem('id')
           })
           .then(res => {
-            if (res.data === 200) {
+            if (res.data.code === 0) {
               alert('举报成功')
             }
             this.getList()
@@ -418,6 +422,7 @@ export default {
     }
   },
   mounted() {
+    this.week = localStorage.getItem('week')
     this.notice()
     if (this.checkTimeVaild()) {
       this.allDisabled = false

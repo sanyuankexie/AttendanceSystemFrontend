@@ -5,8 +5,8 @@
       class="mx-auto"
     >
       <v-container fluid>
-        <v-card-title>获取某个人所有的签到记录</v-card-title>
-<!--        <v-card-subtitle>佛系功能，没有做分页</v-card-subtitle>-->
+        <v-card-title>截至今日，宁的所有的签到记录</v-card-title>
+        <v-card-subtitle>为了简约，时长低于0.05不展示</v-card-subtitle>
         <v-simple-table
           fixed-header
         >
@@ -18,6 +18,8 @@
                 <th>部门</th>
                 <th>地点</th>
                 <th>开始时间</th>
+                <th>结束时间</th>
+                <th>累计</th>
                 <th>状态</th>
               </tr>
             </thead>
@@ -31,6 +33,8 @@
                 <td>{{item.userDept}}</td>
                 <td>{{item.userLocation}}</td>
                 <td>{{item.start}}</td>
+                <td>{{item.end}}</td>
+                <td>{{item.accumulatedTime}}</td>
                 <td>{{item.status}}</td>
               </tr>
             </tbody>
@@ -50,16 +54,25 @@ export default {
     };
   },
   mounted() {
-    let userId = store.state.userId || localStorage.getItem('userId');
+    let userId = store.state.userId || localStorage.getItem('id');
+    console.log(userId)
     if (userId === "") {
-      alert("还没有签到");
+      alert("宁还没有签到");
       this.$router.redirect("/");
     } else {
       this.$http
         .get(`/api/record/${userId}`)
         .then((res) => {
           if (res.data.code === 0) {
+            for (let i = 0; i < res.data.data.length; ++ i) {
+              let self = res.data.data[i];
+              if (self.accumulatedTime <= 0.05) {
+                res.data.data.splice(i, 1)
+                i --;
+              }
+            }
             this.tableData = res.data.data;
+            console.log(this.tableData)
           } else {
             alert(res.data.msg);
           }
