@@ -31,21 +31,28 @@
             <v-list-item-title>首页</v-list-item-title>
           </v-list-item>
 
-          <v-list-item to="/rank">
+          <v-list-item v-if="store.state.student.isLogin" to="/rank">
             <v-list-item-icon>
-              <v-icon>{{svgPath.mdiEqualizer}}</v-icon>
+              <v-icon>{{svgPath.mdiBrightness5}}</v-icon>
             </v-list-item-icon>
-            <v-list-item-title>排名</v-list-item-title>
+            <v-list-item-title>新人</v-list-item-title>
           </v-list-item>
 
-          <v-list-item to="/record">
+          <v-list-item v-if="store.state.student.isLogin"  to="/old-man-rank">
+            <v-list-item-icon>
+              <v-icon>{{svgPath.mdiBrightness7}}</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>老人</v-list-item-title>
+          </v-list-item>
+
+          <v-list-item v-if="store.state.student.isLogin"  to="/record">
             <v-list-item-icon>
               <v-icon>{{svgPath.mdiEmoticon}}</v-icon>
             </v-list-item-icon>
             <v-list-item-title>记录</v-list-item-title>
           </v-list-item>
 
-          <v-list-item to="/about">
+          <v-list-item v-if="store.state.student.isLogin"  to="/about">
             <v-list-item-icon>
               <v-icon>{{svgPath.mdiInformationOutline}}</v-icon>
             </v-list-item-icon>
@@ -65,15 +72,19 @@
 </template>
 
 <script>
-import { mdiApps, mdiMenu, mdiInformationOutline, mdiEqualizer, mdiEmoticon } from '@mdi/js'
+import { mdiApps, mdiMenu, mdiInformationOutline, mdiEqualizer, mdiEmoticon, mdiBrightness7, mdiBrightness5 } from '@mdi/js'
+import store from './store/store'
 export default {
   data: () => ({
+    store,
     svgPath: {
       mdiApps,
       mdiMenu,
       mdiInformationOutline,
       mdiEqualizer,
-      mdiEmoticon
+      mdiEmoticon,
+      mdiBrightness7,
+      mdiBrightness5
     },
     drawer: false
   }),
@@ -83,14 +94,8 @@ export default {
     }
   },
   mounted() {
-    if (
-      localStorage.getItem('themeDark') === 'true' ||
-      window.matchMedia('(prefers-color-scheme: dark)').matches
-    ) {
-      this.$vuetify.theme.dark = true
-    } else {
-      this.$vuetify.theme.dark = false
-    }
+    this.$vuetify.theme.dark = localStorage.getItem('themeDark') === 'true' ||
+        window.matchMedia('(prefers-color-scheme: dark)').matches;
   }
 }
 </script>

@@ -291,6 +291,7 @@ export default {
           this.getList()
           // set week
           localStorage.setItem('week', res.data.data.week)
+          this.week = res.data.data.week
         } else {
           this.signUpDialog.success = false
           this.signUpDialog.loading = false
@@ -344,11 +345,7 @@ export default {
             }
             this.getList()
             //如果自己举报自己。。。
-            if (
-                this.inRomList.items.some(item => {
-                  return item.userId.toString() === localStorage.getItem('id')
-                })
-            ) {
+            if (localStorage.getItem('id') === this.reportDialog.msg.id) {
               store.setLogOut()
             }
           })
@@ -409,12 +406,15 @@ export default {
     },
     'inRomList.items'() {
       //check me inRoom
+      let meName;
       var inRoom = this.inRomList.items.some(item => {
+        meName = item.userName
         return item.userId.toString() === localStorage.getItem('id')
       })
+      // console.log(meName)
       if (inRoom) {
         var id = localStorage.getItem('id')
-        var name = localStorage.getItem('name')
+        var name = meName
         store.setLogin({id, name})
       } else {
         store.setLogOut()

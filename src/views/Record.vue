@@ -56,9 +56,9 @@ export default {
   mounted() {
     let userId = store.state.userId || localStorage.getItem('id');
     console.log(userId)
-    if (userId === "") {
+    if (userId === ""||userId===null) {
       alert("宁还没有签到");
-      this.$router.redirect("/");
+      this.$router.replace({ path: '/' });
     } else {
       this.$http
         .get(`/api/record/${userId}`)
