@@ -8,7 +8,6 @@
         <v-alert type="warning">现在不是上班时间</v-alert>
       </v-col>
 
-
       <v-col cols="12" v-if="shareState.student.isLogin">
         <v-alert type="success" dense :icon="mdiCheckCircle">
           <h3>已签到</h3>
@@ -19,24 +18,11 @@
       </v-col>
 
       <v-col cols="12">
-        <v-text-field
-            :rules="idError"
-            label="输入学号"
-            ref="inputId"
-            hide-details="auto"
-            :disabled="inputIdDisabled"
-            v-model="inputId"
-        ></v-text-field>
+        <v-text-field :rules="idError" label="输入学号" ref="inputId" hide-details="auto" :disabled="inputIdDisabled" v-model="inputId"></v-text-field>
       </v-col>
 
       <v-col cols="12">
-        <v-btn
-            class="mr-3"
-            color="primary"
-            rounded
-            :disabled="signUpDisabled"
-            @click.stop="signUp"
-        >签到
+        <v-btn class="mr-3" color="primary" rounded :disabled="signUpDisabled" @click.stop="signUp">签到
         </v-btn>
         <v-btn rounded outlined color="gray" :disabled="signOutDisabled" @click.stop="signOut">签退</v-btn>
         <v-dialog v-model="signUpDialog.show" width="500">
@@ -113,23 +99,9 @@
           <v-card-title>
             当前在教室的人数：{{ inRomList.items.length }}
             <v-spacer></v-spacer>
-            <v-text-field
-                v-model="inRomList.search"
-                :append-icon="mdiMagnify"
-                label="Search"
-                single-line
-                hide-details
-            ></v-text-field>
+            <v-text-field v-model="inRomList.search" :append-icon="mdiMagnify" label="Search" single-line hide-details></v-text-field>
           </v-card-title>
-          <v-data-table
-              :headers="inRomList.headers"
-              :items="inRomList.items"
-              :search="inRomList.search"
-              mobile-breakpoint="0"
-              item-key="userid"
-              :items-per-page="10"
-              calculate-widths
-          >
+          <v-data-table :headers="inRomList.headers" :items="inRomList.items" :search="inRomList.search" mobile-breakpoint="0" item-key="userid" :items-per-page="10" calculate-widths>
             <template v-slot:item.username="{item}">
               <v-chip color="success">{{ item.username }}</v-chip>
             </template>
@@ -144,7 +116,7 @@
             <v-card-text>
               <p class="mb-0 mt-5">
                 学号：{{ reportDialog.msg.id }}
-                <br/>
+                <br />
                 姓名：{{ reportDialog.msg.name }}
               </p>
             </v-card-text>
@@ -162,7 +134,7 @@
 </template>
 
 <script>
-import {mdiCheckCircle, mdiMagnify} from '@mdi/js'
+import { mdiCheckCircle, mdiMagnify } from '@mdi/js'
 import store from '@/store/store.js'
 
 export default {
@@ -273,7 +245,7 @@ export default {
       this.signUpDialog.show = true
       this.signUpDialog.loading = true
       //send inputid
-      this.$http.post('/api/user/signIn', {userId: this.inputId}).then(res => {
+      this.$http.post('/api/user/signIn', { userId: this.inputId }).then(res => {
         if (res.data.code === 0) {
           this.signUpDialog.success = true
           this.signUpDialog.loading = false
@@ -285,13 +257,15 @@ export default {
           this.signUpDialog.msg.allTime = res.data.data.totalTime
 
           //store set login
-          store.setLogin({id: this.inputId, name: res.data.data.userName})
+          store.setLogin({ id: this.inputId, name: res.data.data.userName })
 
           //refresh list
           this.getList()
           // set week
           localStorage.setItem('week', res.data.data.week)
           this.week = res.data.data.week
+          store.state.student.logined = true;
+
         } else {
           this.signUpDialog.success = false
           this.signUpDialog.loading = false
@@ -304,7 +278,7 @@ export default {
       this.signOutDialog.show = true
       this.signOutDialog.loading = true
 
-      this.$http.post('/api/user/signOut', {userId: this.inputId}).then(res => {
+      this.$http.post('/api/user/signOut', { userId: this.inputId }).then(res => {
         if (res.data.code === 0) {
           this.signOutDialog.loading = false
           this.signOutDialog.success = true
@@ -335,20 +309,20 @@ export default {
       //console.log("学号：" + this.reportDialog.msg.id);
       this.reportDialog.show = false
       this.$http
-          .post('/api/user/complaint', {
-            targetUserId: this.reportDialog.msg.id,
-            operatorUserId: localStorage.getItem('id')
-          })
-          .then(res => {
-            if (res.data.code === 0) {
-              alert('举报成功')
-            }
-            this.getList()
-            //如果自己举报自己。。。
-            if (localStorage.getItem('id') === this.reportDialog.msg.id) {
-              store.setLogOut()
-            }
-          })
+        .post('/api/user/complaint', {
+          targetUserId: this.reportDialog.msg.id,
+          operatorUserId: localStorage.getItem('id')
+        })
+        .then(res => {
+          if (res.data.code === 0) {
+            alert('举报成功')
+          }
+          this.getList()
+          //如果自己举报自己。。。
+          if (localStorage.getItem('id') === this.reportDialog.msg.id) {
+            store.setLogOut()
+          }
+        })
     },
     cancelReport() {
       this.reportDialog.show = false
@@ -415,7 +389,7 @@ export default {
       if (inRoom) {
         var id = localStorage.getItem('id')
         var name = meName
-        store.setLogin({id, name})
+        store.setLogin({ id, name })
       } else {
         store.setLogOut()
       }
@@ -432,7 +406,7 @@ export default {
       if (localStorage.getItem('isLogin') === 'true') {
         var id = localStorage.getItem('id')
         var name = localStorage.getItem('name')
-        store.setLogin({id, name})
+        store.setLogin({ id, name })
       }
 
       //get list

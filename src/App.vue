@@ -2,14 +2,7 @@
   <v-app>
     <v-app-bar app dark :color="$vuetify.theme.dark?'grey darken-4':'blue lighten-3'">
       <div class="d-flex align-center">
-        <v-img
-          alt="kexie Logo"
-          class="shrink mr-2"
-          contain
-          src="../public/logo.jpg"
-          transition="scale-transition"
-          width="40"
-        />
+        <v-img alt="kexie Logo" class="shrink mr-2" contain src="../public/logo.jpg" transition="scale-transition" width="40" />
 
         <v-toolbar-title>三院科协</v-toolbar-title>
       </div>
@@ -31,28 +24,28 @@
             <v-list-item-title>首页</v-list-item-title>
           </v-list-item>
 
-          <v-list-item v-if="store.state.student.isLogin" to="/rank">
+          <v-list-item v-if="logined" to="/rank">
             <v-list-item-icon>
               <v-icon>{{svgPath.mdiBrightness5}}</v-icon>
             </v-list-item-icon>
             <v-list-item-title>新人</v-list-item-title>
           </v-list-item>
 
-          <v-list-item v-if="store.state.student.isLogin"  to="/old-man-rank">
+          <v-list-item v-if="logined" to="/old-man-rank">
             <v-list-item-icon>
               <v-icon>{{svgPath.mdiBrightness7}}</v-icon>
             </v-list-item-icon>
             <v-list-item-title>老人</v-list-item-title>
           </v-list-item>
 
-          <v-list-item v-if="store.state.student.isLogin"  to="/record">
+          <v-list-item v-if="logined" to="/record">
             <v-list-item-icon>
               <v-icon>{{svgPath.mdiEmoticon}}</v-icon>
             </v-list-item-icon>
             <v-list-item-title>记录</v-list-item-title>
           </v-list-item>
 
-          <v-list-item v-if="store.state.student.isLogin"  to="/about">
+          <v-list-item v-if="logined" to="/about">
             <v-list-item-icon>
               <v-icon>{{svgPath.mdiInformationOutline}}</v-icon>
             </v-list-item-icon>
@@ -86,7 +79,7 @@ export default {
       mdiBrightness7,
       mdiBrightness5
     },
-    drawer: false
+    drawer: false,
   }),
   watch: {
     '$vuetify.theme.dark': newQuestion => {
@@ -95,7 +88,15 @@ export default {
   },
   mounted() {
     this.$vuetify.theme.dark = localStorage.getItem('themeDark') === 'true' ||
-        window.matchMedia('(prefers-color-scheme: dark)').matches;
+      window.matchMedia('(prefers-color-scheme: dark)').matches;
+    let userId = store.state.userId || localStorage.getItem('id');
+    if (userId != undefined) {
+      this.store.state.student.logined = true;
+    }
+  }, computed: {
+    logined() {
+      return this.store.state.student.logined;
+    }
   }
 }
 </script>
