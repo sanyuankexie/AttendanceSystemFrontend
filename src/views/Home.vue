@@ -247,13 +247,24 @@ export default {
       //send inputid
       this.$http.post('/api/user/signIn', { userId: this.inputId }).then(res => {
         if (res.data.code === 0) {
+          let currentTime = (function getNowTime() {
+            let d = new Date();
+            var Y = d.getFullYear();
+            var M = d.getMonth() + 1;
+            var D = d.getDate();
+            let h = d.getHours();
+            let m = d.getMinutes();
+            let t = d.getSeconds();
+            return `${Y}-${M < 10 ? '0' + M : M}-${D < 10 ? '0' + D : D} ${h < 10 ? '0' + h : h}:${m < 10 ? '0' + m : m}:${t < 10 ? '0' + t : t}`;
+          })();
           this.signUpDialog.success = true
           this.signUpDialog.loading = false
+
 
           //set success msg
           this.signUpDialog.msg.id = this.inputId
           this.signUpDialog.msg.name = res.data.data.userName
-          this.signUpDialog.msg.currentTime = new Date().toString()
+          this.signUpDialog.msg.currentTime = currentTime;
           this.signUpDialog.msg.allTime = res.data.data.totalTime
 
           //store set login

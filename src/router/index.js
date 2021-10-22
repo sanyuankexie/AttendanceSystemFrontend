@@ -52,13 +52,15 @@ router.beforeEach((to, from, next) => {
 
         // this route requires auth, check if logged in
         // if not, redirect to login page.
-        if (!store.state.student.logined) {
+        let userId = store.state.userId || localStorage.getItem('id');
+        console.log(userId);
+        if (store.state.student.logined || userId != undefined) {
+            next()
+        } else {
             next({
                 path: '/',
             })
             alert('请先签到')
-        } else {
-            next()
         }
     } else {
         next() // 确保一定要调用 next()
