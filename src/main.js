@@ -8,13 +8,16 @@ import axios from 'axios'
 // Vue.use(VCharts)
 
 
-Vue.prototype.$http = axios.create({
-})
+
+
+
+
+Vue.prototype.$http = axios.create({})
 
 Vue.config.productionTip = false
 
 new Vue({
-  router,
-  vuetify,
-  render: (h) => h(App),
+    router,
+    vuetify,
+    render: (h) => h(App),
 }).$mount('#app')

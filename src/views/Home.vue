@@ -229,14 +229,21 @@ export default {
     }
     ,
     checkTimeVaild() {
-      var currentTime = new Date()
-      var hours = currentTime.getHours()
-      var minutes = currentTime.getMinutes()
-      if (hours < 6 || (hours >= 23 && minutes >= 30)) {
+
+      let currentTime = new Date()
+      let hours = currentTime.getHours()
+      let minutes = currentTime.getMinutes()
+      let week = currentTime.getDay();
+
+      let weekend = [5, 6];
+      // console.log(new Date(currentTime.getDate() + 1000 * 60 * 60 * 24 * 14).getDate());
+      if (hours < 6) {
         return false
       } else {
-        return true
+        // console.log(weekend.includes(week));
+        return weekend.includes(week) ? true : !(hours >= 23 && minutes >= 30);
       }
+      // return true;
     },
     signUp() {
       //check valid
@@ -249,9 +256,9 @@ export default {
         if (res.data.code === 0) {
           let currentTime = (function getNowTime() {
             let d = new Date();
-            var Y = d.getFullYear();
-            var M = d.getMonth() + 1;
-            var D = d.getDate();
+            let Y = d.getFullYear();
+            let M = d.getMonth() + 1;
+            let D = d.getDate();
             let h = d.getHours();
             let m = d.getMinutes();
             let t = d.getSeconds();
@@ -259,8 +266,6 @@ export default {
           })();
           this.signUpDialog.success = true
           this.signUpDialog.loading = false
-
-
           //set success msg
           this.signUpDialog.msg.id = this.inputId
           this.signUpDialog.msg.name = res.data.data.userName
@@ -303,7 +308,12 @@ export default {
 
           //refresh list
           this.getList()
-        } else {
+        } else if (res.data.code == -202) {
+          this.signOutDialog.loading = false
+          this.signOutDialog.msg.err = res.data.msg
+          store.setLogOut()
+        }
+        else {
           this.signOutDialog.loading = false
           this.signOutDialog.msg.err = res.data.msg
         }
@@ -436,5 +446,6 @@ export default {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+
 }
 </style>
