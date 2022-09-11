@@ -102,10 +102,10 @@
             <v-text-field v-model="inRomList.search" :append-icon="mdiMagnify" label="Search" single-line hide-details></v-text-field>
           </v-card-title>
           <v-data-table :headers="inRomList.headers" :items="inRomList.items" :search="inRomList.search" mobile-breakpoint="0" item-key="userid" :items-per-page="10" calculate-widths>
-            <template v-slot:item.username="{item}">
+            <template v-slot:[`item.username`]="{item}">
               <v-chip color="success">{{ item.username }}</v-chip>
             </template>
-            <template v-slot:item.actions="{item}">
+            <template v-slot:[`item.actions`]="{item}">
               <v-btn small @click.stop="handleReport(item)">举报</v-btn>
             </template>
           </v-data-table>

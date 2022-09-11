@@ -81,6 +81,9 @@ export default {
   mounted() {
     this.initCharts();
   },
+  destroyed(){
+    window.removeEventListener('resize',this.chartResize);
+  },
   beforeMount() {
 
     //get rankList
@@ -115,6 +118,9 @@ export default {
     initCharts() {
       this.chart = echarts.init(document.getElementById('main'));
       this.setOptions();
+      window.addEventListener('resize',this.chartResize);
+    },chartResize(){
+      this.chart.resize();
     },
     setOptions() {
       this.chart.setOption({
