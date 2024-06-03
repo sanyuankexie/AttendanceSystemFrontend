@@ -20,5 +20,11 @@ npm run build
 npm run lint
 ```
 
+### 
+```shell
+docker build -t kexie-at-web .  
+docker run -d -p 8080:80 --name kexie-at-web -e BACKEND_HOST=at.kexie.space -e BACKEND_URL=https://at.kexie.space kexie-attendance-web
+```
+
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
