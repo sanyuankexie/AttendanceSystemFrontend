@@ -20,6 +20,11 @@ npm run build
 npm run lint
 ```
 
+构建 docker 镜像并推送
+```shell
+docker buildx build --platform linux/amd64 -t docker.kexie.space/kexie/kexie-attendance:latest --push .
+```
+
 ### 
 ```shell
 docker build -t kexie-at-web .  
