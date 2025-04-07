@@ -45,6 +45,13 @@
             <v-list-item-title>记录</v-list-item-title>
           </v-list-item>
 
+          <v-list-item v-if="logined" to="/appeal">
+            <v-list-item-icon>
+              <v-icon>{{svgPath.mdiCloudUpload}}</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>申诉</v-list-item-title>
+          </v-list-item>
+
           <v-list-item v-if="logined" to="/about">
             <v-list-item-icon>
               <v-icon>{{svgPath.mdiInformationOutline}}</v-icon>
@@ -65,7 +72,16 @@
 </template>
 
 <script>
-import { mdiApps, mdiMenu, mdiInformationOutline, mdiEqualizer, mdiEmoticon, mdiBrightness7, mdiBrightness5 } from '@mdi/js'
+import {
+  mdiApps,
+  mdiMenu,
+  mdiInformationOutline,
+  mdiEqualizer,
+  mdiEmoticon,
+  mdiBrightness7,
+  mdiBrightness5,
+  mdiCloudUpload
+} from '@mdi/js'
 import store from './store/store'
 export default {
   data: () => ({
@@ -77,7 +93,8 @@ export default {
       mdiEqualizer,
       mdiEmoticon,
       mdiBrightness7,
-      mdiBrightness5
+      mdiBrightness5,
+      mdiCloudUpload
     },
     drawer: false,
   }),

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import store from '../store/store'
+import Appeal from "../views/Appeal.vue";
 
 Vue.use(VueRouter)
 
@@ -29,6 +30,11 @@ const routes = [{
         name: 'Record',
         component: () =>
             import ( /* webpackChunkName: "rank" */ '../views/Record.vue')
+    },
+    {
+        path: '/appeal/:id?',
+        name: 'Appeal',
+        component: () => import('../views/Appeal.vue')
     },
     {
         path: '/about',

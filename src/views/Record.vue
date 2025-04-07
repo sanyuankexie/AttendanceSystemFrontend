@@ -21,6 +21,7 @@
                 <th>结束时间</th>
                 <th>累计</th>
                 <th>状态</th>
+                <th>操作</th>
               </tr>
             </thead>
             <tbody>
@@ -33,6 +34,9 @@
                 <td>{{item.end}}</td>
                 <td>{{item.accumulatedTime}}</td>
                 <td>{{item.status}}</td>
+                <td v-if="item.status === '被迫下线'">
+                  <v-btn small @click = "toAppeal(item.id)">申诉</v-btn>
+                </td>
               </tr>
             </tbody>
           </template>
@@ -44,6 +48,7 @@
 
 <script>
 import store from "@/store/store.js";
+import router from "../router";
 export default {
   data() {
     return {
@@ -127,6 +132,14 @@ export default {
           });
 
       }
+    }
+  },
+  methods: {
+    toAppeal(recordId) {
+      router.push({
+        name: 'Appeal',
+        params: { id: recordId }
+      })
     }
   }
 };
