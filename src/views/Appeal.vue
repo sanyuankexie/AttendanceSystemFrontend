@@ -52,152 +52,71 @@
         </v-card-text>
 
         <v-card-text class="red--text" v-else>
-            如果你是被恶意举报了，请去签到记录界面找到被举报的对应记录点击申诉，而不是直接在这里申请补加！！！
+          如果你是被恶意举报了，请去签到记录界面找到被举报的对应记录点击申诉，而不是直接在这里申请补加！！！
         </v-card-text>
 
         <!-- 申诉表单 -->
         <v-form ref="form" @submit.prevent="submitAppeal">
           <v-row class="mt-4">
             <v-col cols="12" md="6">
-              <v-text-field
-                  v-model="form.appealUser.id"
-                  label="学号"
-                  :rules="requiredRule"
-                  outlined
-                  dense
-              ></v-text-field>
+              <v-text-field v-model="form.appealUser.id" label="学号" :rules="requiredRule" outlined dense></v-text-field>
             </v-col>
 
             <v-col cols="12" md="6">
-              <v-text-field
-                  v-model="form.appealUser.name"
-                  label="姓名"
-                  :rules="requiredRule"
-                  outlined
-                  dense
-              ></v-text-field>
+              <v-text-field v-model="form.appealUser.name" label="姓名" :rules="requiredRule" outlined
+                dense></v-text-field>
             </v-col>
 
             <v-col cols="12">
-              <v-text-field
-                  v-model="form.appealUser.email"
-                  label="邮箱"
-                  :rules="emailRules"
-                  hint="请输入有效邮箱地址"
-                  outlined
-                  dense
-              ></v-text-field>
+              <v-text-field v-model="form.appealUser.email" label="邮箱" :rules="emailRules" hint="请输入有效邮箱地址" outlined
+                dense></v-text-field>
             </v-col>
 
             <v-col cols="12" md="6">
-              <v-select
-                  v-model="form.appealUser.dept"
-                  :items="optionList.departments"
-                  item-text="dept"
-                  label="选择部门"
-                  :rules="requiredRule"
-                  outlined
-                  dense
-                  return-object
-              ></v-select>
+              <v-select v-model="form.appealUser.dept" :items="optionList.departments" item-text="dept" label="选择部门"
+                :rules="requiredRule" outlined dense return-object></v-select>
             </v-col>
 
             <!-- 方向选择 -->
             <v-col cols="12" md="6">
-              <v-select
-                  v-model="form.appealUser.learn"
-                  :items="optionList.learn[form.appealUser.dept]"
-                  :disabled="!form.appealUser.dept"
-                  label="选择方向"
-                  :rules="requiredRule"
-                  outlined
-                  dense
-                  hint="请根据部门选择方向"
-                  :loading="isLoading"
-              ></v-select>
+              <v-select v-model="form.appealUser.learn" :items="optionList.learn[form.appealUser.dept]"
+                :disabled="!form.appealUser.dept" label="选择方向" :rules="requiredRule" outlined dense hint="请根据部门选择方向"
+                :loading="isLoading"></v-select>
             </v-col>
 
             <v-col cols="12">
-              <v-select
-                  v-model="form.appealUser.location"
-                  :items="optionList.classrooms"
-                  item-text="location"
-                  label="选择你在哪个教室"
-                  :rules="requiredRule"
-                  outlined
-                  dense
-                  return-object
-              ></v-select>
+              <v-select v-model="form.appealUser.location" :items="optionList.classrooms" item-text="location"
+                label="选择你在哪个教室" :rules="requiredRule" outlined dense return-object></v-select>
             </v-col>
 
             <v-col cols="12">
-              <v-text-field
-                  v-model="form.requireAddTime"
-                  label="需要补加时长,以时（h）为单位"
-                  hint="填写一个数字即可。比如要加2.5h便填写2.5即可"
-                  :rules="requiredRule"
-                  outlined
-                  dense
-              ></v-text-field>
+              <v-text-field v-model="form.requireAddTime" label="需要补加时长,以时（h）为单位" hint="填写一个数字即可。比如要加2.5h便填写2.5即可"
+                :rules="requiredRule" outlined dense></v-text-field>
             </v-col>
 
             <v-col cols="12">
-              <v-textarea
-                  v-model="form.reason"
-                  label="补加详细原因描述"
-                  :rules="requiredRule"
-                  outlined
-                  rows="3"
-                  counter="300"
-                  maxlength="300"
-                  hint="请详细说明为什么你需要补加此次时长"
-              ></v-textarea>
+              <v-textarea v-model="form.reason" label="补加详细原因描述" :rules="requiredRule" outlined rows="3" counter="300"
+                maxlength="300" hint="请详细说明为什么你需要补加此次时长"></v-textarea>
             </v-col>
 
             <v-col cols="12">
               <!-- 文件上传组件 -->
-              <v-file-input
-                  v-model="form.appealImageUrls"
-                  label="点击上传证明材料（仅支持JPG/PNG图片）"
-                  multiple
-                  outlined
-                  show-size
-                  :accept="allowedTypes"
-                  :rules="fileRules"
-                  @change="handleFileUpload"
-              ></v-file-input>
+              <v-file-input v-model="form.appealImageUrls" label="点击上传证明材料（仅支持JPG/PNG图片）" multiple outlined show-size
+                :accept="allowedTypes" :rules="fileRules" @change="handleFileUpload"></v-file-input>
 
               <!-- 预览区域 -->
               <v-row v-if="previews.length" class="mt-2">
-                <v-col
-                    v-for="(preview, index) in previews"
-                    :key="index"
-                    cols="6"
-                    sm="4"
-                    md="2"
-                >
+                <v-col v-for="(preview, index) in previews" :key="index" cols="6" sm="4" md="2">
                   <v-card class="preview-card">
-                    <v-img
-                        :src="preview.url"
-                        aspect-ratio="1"
-                        class="grey lighten-2"
-                    >
+                    <v-img :src="preview.url" aspect-ratio="1" class="grey lighten-2">
                       <template v-slot:placeholder>
                         <v-row class="fill-height" justify="center" align="center">
-                          <v-progress-circular indeterminate color="grey lighten-5"/>
+                          <v-progress-circular indeterminate color="grey lighten-5" />
                         </v-row>
                       </template>
                     </v-img>
 
-                    <v-btn
-                        icon
-                        small
-                        absolute
-                        top
-                        right
-                        color="red"
-                        @click="removeFile(index)"
-                    >
+                    <v-btn icon small absolute top right color="red" @click="removeFile(index)">
                       <v-icon>mdi-close</v-icon>
                     </v-btn>
                   </v-card>
@@ -207,11 +126,7 @@
 
 
             <v-col cols="12" class="text-right">
-              <v-btn
-                  type="submit"
-                  color="primary"
-                  :loading="submitting"
-                  large>
+              <v-btn type="submit" color="primary" :loading="submitting" large>
                 提交申诉
               </v-btn>
             </v-col>
@@ -219,59 +134,59 @@
         </v-form>
 
         <!-- 历史申诉记录 -->
-<!--        <v-divider class="my-8"></v-divider>-->
+        <!--        <v-divider class="my-8"></v-divider>-->
 
-<!--        <v-card-title class="text-h6">-->
-<!--          <v-icon left>mdi-history</v-icon>-->
-<!--          历史申诉记录-->
-<!--        </v-card-title>-->
+        <!--        <v-card-title class="text-h6">-->
+        <!--          <v-icon left>mdi-history</v-icon>-->
+        <!--          历史申诉记录-->
+        <!--        </v-card-title>-->
 
-<!--        <v-simple-table class="elevation-2">-->
-<!--          <template v-slot:default>-->
-<!--            <thead>-->
-<!--            <tr>-->
-<!--              <th>提交时间</th>-->
-<!--              <th>类型</th>-->
-<!--              <th>状态</th>-->
-<!--              <th>处理结果</th>-->
-<!--              <th>操作</th>-->
-<!--            </tr>-->
-<!--            </thead>-->
-<!--            <tbody>-->
-<!--            <tr v-for="item in history" :key="item.id">-->
-<!--              <td>{{ formatDate(item.createdAt) }}</td>-->
-<!--              <td>{{ item.type }}</td>-->
-<!--              <td>-->
-<!--                <v-chip :color="getStatusColor(item.status)" small>-->
-<!--                  {{ item.status }}-->
-<!--                </v-chip>-->
-<!--              </td>-->
-<!--              <td>{{ item.result || '&#45;&#45;' }}</td>-->
-<!--              <td>-->
-<!--                <v-btn-->
-<!--                    icon-->
-<!--                    small-->
-<!--                    @click="viewDetail(item)"-->
-<!--                >-->
-<!--                  <v-icon>mdi-eye</v-icon>-->
-<!--                </v-btn>-->
-<!--              </td>-->
-<!--            </tr>-->
-<!--            </tbody>-->
-<!--          </template>-->
-<!--        </v-simple-table>-->
+        <!--        <v-simple-table class="elevation-2">-->
+        <!--          <template v-slot:default>-->
+        <!--            <thead>-->
+        <!--            <tr>-->
+        <!--              <th>提交时间</th>-->
+        <!--              <th>类型</th>-->
+        <!--              <th>状态</th>-->
+        <!--              <th>处理结果</th>-->
+        <!--              <th>操作</th>-->
+        <!--            </tr>-->
+        <!--            </thead>-->
+        <!--            <tbody>-->
+        <!--            <tr v-for="item in history" :key="item.id">-->
+        <!--              <td>{{ formatDate(item.createdAt) }}</td>-->
+        <!--              <td>{{ item.type }}</td>-->
+        <!--              <td>-->
+        <!--                <v-chip :color="getStatusColor(item.status)" small>-->
+        <!--                  {{ item.status }}-->
+        <!--                </v-chip>-->
+        <!--              </td>-->
+        <!--              <td>{{ item.result || '&#45;&#45;' }}</td>-->
+        <!--              <td>-->
+        <!--                <v-btn-->
+        <!--                    icon-->
+        <!--                    small-->
+        <!--                    @click="viewDetail(item)"-->
+        <!--                >-->
+        <!--                  <v-icon>mdi-eye</v-icon>-->
+        <!--                </v-btn>-->
+        <!--              </td>-->
+        <!--            </tr>-->
+        <!--            </tbody>-->
+        <!--          </template>-->
+        <!--        </v-simple-table>-->
       </v-container>
     </v-card>
 
     <!-- 查看详情对话框 -->
-<!--    <v-dialog v-model="detailDialog" max-width="600">-->
-<!--      <v-card>-->
-<!--        <v-card-title>申诉详情</v-card-title>-->
-<!--        <v-card-text>-->
-<!--          <pre>{{ selectedDetail }}</pre>-->
-<!--        </v-card-text>-->
-<!--      </v-card>-->
-<!--    </v-dialog>-->
+    <!--    <v-dialog v-model="detailDialog" max-width="600">-->
+    <!--      <v-card>-->
+    <!--        <v-card-title>申诉详情</v-card-title>-->
+    <!--        <v-card-text>-->
+    <!--          <pre>{{ selectedDetail }}</pre>-->
+    <!--        </v-card-text>-->
+    <!--      </v-card>-->
+    <!--    </v-dialog>-->
 
   </div>
 </template>
@@ -305,24 +220,25 @@ export default {
         ],
         learn: {
           '软件部': [
-              'App开发',
-              '深度学习',
-              '游戏开发'
+            'App开发',
+            '深度学习',
+            '游戏开发'
           ],
           '硬件部': [
-              '嵌入式开发'
+            '嵌入式开发'
           ],
           '多媒体部': [
-              '网站开发',
-              '小程序开发',
-              '视频剪辑',
-              'UI设计',
+            '网站开发',
+            '小程序开发',
+            '视频剪辑',
+            'UI设计',
+            '编辑'
           ]
         },
         classrooms: [
-            '5108',
-            '5109',
-            '5110'
+          '5108',
+          '5109',
+          '5110'
         ]
       },
       form: {
@@ -341,9 +257,9 @@ export default {
       },
       fileRules: [
         files => !files ||
-            Array.from(files).every(file =>
-                ['image/png', 'image/jpeg', 'image/jpg'].includes(file.type)
-                || '仅支持JPG和PNG格式图片')
+          Array.from(files).every(file =>
+            ['image/png', 'image/jpeg', 'image/jpg'].includes(file.type)
+            || '仅支持JPG和PNG格式图片')
       ],
       requiredRule: [v => !!v || '此项为必填项'],
       emailRules: [
@@ -351,8 +267,8 @@ export default {
         v => /.+@.+\..+/.test(v) || '邮箱格式不正确' // 正则校验
       ],
       records: [
-        {id: 1, title: '2023-06-15 考勤记录'},
-        {id: 2, title: '数学期末考试成绩'}
+        { id: 1, title: '2023-06-15 考勤记录' },
+        { id: 2, title: '数学期末考试成绩' }
       ],
       history: [
         {
@@ -443,7 +359,7 @@ export default {
 
       // 过滤无效文件类型
       const validFiles = Array.from(files).filter(file =>
-          ['image/png', 'image/jpeg'].includes(file.type)
+        ['image/png', 'image/jpeg'].includes(file.type)
       )
 
       // 提示错误信息
@@ -533,5 +449,4 @@ pre {
 .preview-card:hover {
   transform: translateY(-5px);
 }
-
 </style>
