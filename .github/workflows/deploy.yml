@@ -50,9 +50,12 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build and Push Docker image
-        run: |
-          VERSION=${{ needs.release-please.outputs.tag_name }}
-          docker buildx build --platform linux/amd64 \
-            -t ${{ secrets.DOCKER_REGISTRY_URL }}/kexie-at-web:${VERSION} \
-            -t ${{ secrets.DOCKER_REGISTRY_URL }}/kexie-at-web:latest \
-            --push -f Dockerfile .
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          platforms: linux/amd64
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_REGISTRY_URL }}/kexie-at-web:${{ needs.release-please.outputs.tag_name }}
+            ${{ secrets.DOCKER_REGISTRY_URL }}/kexie-at-web:latest
