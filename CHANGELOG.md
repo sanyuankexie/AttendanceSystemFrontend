@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.3](https://github.com/sanyuankexie/AttendanceSystemFrontend/compare/v0.2.2...v0.2.3) (2026-04-23)
+
+
+### Miscellaneous Chores
+
+* 手动触发发布 ([c09b598](https://github.com/sanyuankexie/AttendanceSystemFrontend/commit/c09b598209df4b369c5862783c500a55a40fcc4f))
+
 ## [0.2.2](https://github.com/sanyuankexie/AttendanceSystemFrontend/compare/v0.2.1...v0.2.2) (2026-04-22)
 
 
