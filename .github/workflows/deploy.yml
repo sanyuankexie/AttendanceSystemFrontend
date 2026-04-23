@@ -51,7 +51,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build and Push Docker image
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: .
           file: ./Dockerfile
@@ -60,3 +60,5 @@ jobs:
           tags: |
             ${{ secrets.DOCKER_REGISTRY_HOST }}/${{ secrets.DOCKER_REGISTRY_NAMESPACE }}/kexie-at-web:${{ needs.release-please.outputs.tag_name }}
             ${{ secrets.DOCKER_REGISTRY_HOST }}/${{ secrets.DOCKER_REGISTRY_NAMESPACE }}/kexie-at-web:latest
+          provenance: false
+          sbom: false
