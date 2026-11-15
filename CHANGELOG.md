@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0](https://github.com/sanyuankexie/AttendanceSystemFrontend/compare/v0.2.3...v0.3.0) (2026-11-15)
+
+
+### Features
+
+* 申诉页面添加安全部 ([af03184](https://github.com/sanyuankexie/AttendanceSystemFrontend/commit/af03184683deb79c7e1574ae8a463fff44e6fcc4))
+
 ## [0.2.3](https://github.com/sanyuankexie/AttendanceSystemFrontend/compare/v0.2.2...v0.2.3) (2026-04-23)
 
 
